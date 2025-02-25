@@ -1,7 +1,9 @@
+ # Padrão de Projeto
+ 
  ---
  Tags: #fleeting 
  Description: Live do PycodeBr sobre padrão de projeto
- Theme:[[Mestrado ITA 👨🏽‍🏫]], [[Ambiente virtual -  venv]], 
+ Theme: [[Mestrado ITA 👨🏽‍🏫]], [[Ambiente virtual -  venv]], 
 ## ID: 20250223200951
 ---
 
@@ -231,6 +233,8 @@ print(carro.dirigir())
 
 # <font color="#d99694">Abstract Factory</font>
 
+O mesmo proposito do Factory Method porém para uma complexidade maior, maiores configurações dentro de uma mesma classe.
+
 **Problema:** 
 
 Em sistemas mais complexos, você pode precisar de famílias de objetos que precisam ser criados de forma consistente, mas que podem ter diferentes variantes. Por exemplo, ao criar carros, você pode querer diferentes variantes de carros esportivos ou populares, mas cada tipo de carro precisa de interiores e rodas diferentes. Criar esses objetos de forma dispersa pode ser difícil de manter.
@@ -286,6 +290,9 @@ class CarroPopularFactory(CarroFactory):
     def criar_rodas(self):
         return "Rodas comuns"
 
+esportivo_factory = CarroEsportivoFactory()
+popular_factory = CarroPopularFactory()
+
 
 # Teste
 def cliente(factory: CarroFactory):
@@ -293,8 +300,6 @@ def cliente(factory: CarroFactory):
     rodas = factory.criar_rodas()
     print(f"Interior: {interior.tipo_interior()} | Rodas: {rodas}")
 
-esportivo_factory = CarroEsportivoFactory()
-popular_factory = CarroPopularFactory()
 
 cliente(esportivo_factory)
 cliente(popular_factory)
@@ -309,16 +314,21 @@ cliente(popular_factory)
 - **Isola** a lógica de criação de objetos, mantendo o código do cliente simples e desacoplado.
 - Facilita a **substituição** de famílias de objetos sem alterar o código de criação.
 
+1. `abc` e uma biblioteca nativa do python onde posse métodos abstratos
+	1. `class CarroFactory(ABC):` funciona como se fosse um Template.
 
 
+# <font color="#fac08f">Builder</font>
 
-# Builder
+<font color="#fbd5b5">Usar o padrão de projeto Builder permite que você configure varias pequenas partes do objeto durante sua construção.</font>
+<font color="#fbd5b5">Um bom exemplo para usar esse padrão é para a construção de formulário, caso o preenchedor do formulário não termine o cadastro esse padrão impede a criação de um objeto incompleto.</font>
 
-Problema:
+
+**Problema:**
 
 Quando você precisa criar objetos complexos com muitos parâmetros ou configurações, um único construtor pode tornar-se difícil de entender e usar, especialmente se você precisar de diferentes combinações de parâmetros.
 
-Solução:
+**Solução:**
 
 O **Builder** permite construir o objeto **passo a passo**, configurando cada parte de maneira explícita. Ele abstrai a complexidade do processo de criação e permite construir objetos de forma flexível.
 
@@ -363,6 +373,22 @@ builder = CarroBuilder()
 carro = builder.com_motor('V8').com_cor('vermelho').com_rodas('esportivas').construir()
 print(carro)
 
+
+# Teste 2
+
+builder = CarroBuilder()
+
+  
+
+carro = builder.com_motor('1.4 TSI')
+
+carro = builder.com_cor('Prata')
+
+carro = builder.com_rodas('aro 16')
+
+carro = builder.construir()
+
+carro
 ```
 
 
@@ -371,10 +397,9 @@ print(carro)
 - Facilita a **construção de objetos complexos**, tornando o código mais legível e flexível.
 - Permite **alterar a construção** do objeto sem mudar a interface, mantendo o código **flexível e extensível**.
 
+# <font color="#ccc1d9">Prototype</font>
 
-
-
-# Prototype
+<font color="#ccc1d9">Possível clonar objetos, deseja criar uma classe e copiar uma que já esteja instanciada</font>. O contrário do padrão Singleton.
 
 Problema:
 
@@ -412,6 +437,10 @@ print(carro_clonado)
 
 ```
 
+1. `deepcopy` nativo do python, ele copia todas as propriedades que já estão implementadas no objeto.
+2. 
+
+
 **Por que usar?**
 
 - **Clona objetos complexos** sem a necessidade de recriar atributos manualmente.
@@ -421,7 +450,7 @@ print(carro_clonado)
 
 
 ---
-## Contexto
+# Contexto
 - **Situação**: Estou no inicio de mestrado, um dia antes da aula inaugural e tentado aprender mais como manter meus futuros projetos organizados. 
 - **Fonte**: 
 
